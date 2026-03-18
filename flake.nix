@@ -29,9 +29,13 @@
         nativeBuildInputs = with pkgs; [
           cargo
           rustc
+          rustfmt
+          clippy
+          rust-analyzer
         ];
 
         env.RUSTFLAGS = "-C link-arg=-Wl,-rpath,${nixpkgs.lib.makeLibraryPath dlopenLibraries}";
+        RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
       };
     });
   };

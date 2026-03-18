@@ -1,9 +1,34 @@
-use iced::Task;
+use iced::{Task, Theme};
 use std::fmt;
+
+use crate::screen::Screen;
+
+#[derive(Clone)]
+pub enum Instruction {
+    ChangeScreen(Screen),
+    UpdateTheme(Theme),
+}
+
+#[derive(Clone)]
+pub enum Operator {
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+}
+
+#[derive(Clone)]
+pub enum Message {
+    DigitPressed(u8),
+    OperatorPressed(Operator),
+    ActionPerformed(Instruction),
+    Calculate,
+    Clear,
+}
 
 pub struct Action<Instruction, Message> {
     instruction: Option<Instruction>,
-    task: Task<Message>,
+    pub task: Task<Message>,
 }
 
 impl<Instruction, Message> Action<Instruction, Message> {
@@ -22,9 +47,13 @@ impl<Instruction, Message> Action<Instruction, Message> {
             task,
         }
     }
+    //
+    // pub fn task(&self) -> Task<Message> {
+    //     self.task.clone()
+    // }
 
     /// Create a new `Action` with an `Instruction` to be handled by some ancestor component.
-    pub fn instruction(instruction: Instruction) -> Self {
+    pub fn from_instruction(instruction: Instruction) -> Self {
         Self {
             instruction: Some(instruction),
             task: Task::none(),
@@ -32,7 +61,7 @@ impl<Instruction, Message> Action<Instruction, Message> {
     }
 
     /// Create a new `Action` with a [`Task`](iced::Task).
-    pub fn task(task: Task<Message>) -> Self {
+    pub fn from_task(task: Task<Message>) -> Self {
         Self {
             instruction: None,
             task,
