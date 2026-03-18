@@ -17,10 +17,22 @@ pub enum Operator {
     Divide,
 }
 
+impl Operator {
+    pub fn symbol(&self) -> &str {
+        match self {
+            Operator::Add => "+",
+            Operator::Subtract => "-",
+            Operator::Multiply => "*",
+            Operator::Divide => "/",
+        }
+    }
+}
+
 #[derive(Clone)]
 pub enum Message {
     DigitPressed(u8),
     OperatorPressed(Operator),
+    DecimalPressed,
     ActionPerformed(Instruction),
     Calculate,
     Clear,
