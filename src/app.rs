@@ -36,11 +36,11 @@ impl App {
     pub fn update(&mut self, message: Message) -> Task<Message> {
         match message {
             Message::DigitPressed(digit) => {
-                if self.waiting_for_input || self.input_display == "0" {
+                if self.waiting_for_input || self.input_display == Display("0".to_string()) {
                     self.input_display = Display(digit.to_string());
                     self.waiting_for_input = false;
                 } else {
-                    self.input_display.push_str(Display(&digit.to_string()));
+                    self.input_display.push_str(&Display(digit.to_string()));
                 };
                 Task::none()
             }
@@ -89,36 +89,36 @@ impl App {
 
     fn standard_view(&self) -> Element<'_, Message> {
         column![
-            container(text(&self.input_display).size(50))
+            container(text(&*self.input_display).size(50))
                 .width(Length::Fill)
                 .align_x(Alignment::End)
                 .padding(10),
             container(
                 grid!(
-                    calc_button("%", '%'),
-                    calc_button("CE", '0'),
-                    calc_button("C", 'C'),
-                    calc_button("BSP", '0'),
-                    calc_button("H", '0'),
-                    calc_button("H", '0'),
-                    calc_button("H", '0'),
-                    calc_button("÷", '/'),
-                    calc_button("7", '7'),
-                    calc_button("8", '8'),
-                    calc_button("9", '9'),
-                    calc_button("×", '*'),
-                    calc_button("4", '4'),
-                    calc_button("5", '5'),
-                    calc_button("6", '6'),
-                    calc_button("−", '-'),
-                    calc_button("1", '1'),
-                    calc_button("2", '2'),
-                    calc_button("3", '3'),
-                    calc_button("+", '+'),
-                    calc_button("+/-", '0'),
-                    calc_button("0", '0'),
-                    calc_button(".", '.'),
-                    calc_button("=", '='),
+                    calc_button("%", b'%'),
+                    calc_button("CE", b'0'),
+                    calc_button("C", b'C'),
+                    calc_button("BSP", b'0'),
+                    calc_button("H", b'0'),
+                    calc_button("H", b'0'),
+                    calc_button("H", b'0'),
+                    calc_button("÷", b'/'),
+                    calc_button("7", 7),
+                    calc_button("8", 8),
+                    calc_button("9", 9),
+                    calc_button("×", b'*'),
+                    calc_button("4", 4),
+                    calc_button("5", 5),
+                    calc_button("6", 6),
+                    calc_button("−", b'-'),
+                    calc_button("1", 1),
+                    calc_button("2", 2),
+                    calc_button("3", 3),
+                    calc_button("+", b'+'),
+                    calc_button("+/-", b'0'),
+                    calc_button("0", 0),
+                    calc_button(".", b'.'),
+                    calc_button("=", b'='),
                 )
                 .columns(4)
                 .spacing(10),
@@ -131,7 +131,7 @@ impl App {
     }
 }
 
-fn calc_button(label: &str, msg: char) -> Element<'_, Message> {
+fn calc_button(label: &str, msg: u8) -> Element<'_, Message> {
     button(text(label).center().size(20))
         .on_press(Message::DigitPressed(msg))
         .padding(20)
