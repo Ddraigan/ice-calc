@@ -120,7 +120,6 @@ impl<Instruction: fmt::Debug, Message> fmt::Debug for Action<Instruction, Messag
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("Action")
             .field("instruction", &self.instruction)
-            .field("task", &self.task)
             .finish()
     }
 }

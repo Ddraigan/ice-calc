@@ -1,10 +1,7 @@
-use iced::{
-    Element, Length, Task, Theme,
-    widget::{button, container, text},
-};
+use iced::{Element, Length, Task, Theme, widget::container};
 
 use crate::{
-    action::{Action, Instruction, Message, Operator},
+    action::{Action, Instruction, Message},
     screen::Screen,
     standard_calc::Standard,
 };
@@ -37,9 +34,9 @@ impl App {
     pub fn update(&mut self, message: Message) -> Task<Message> {
         let action = match self.active_screen {
             Screen::Standard => self.standard_state.update(message),
-            Screen::History => Action::none(),
-            Screen::Settings => Action::none(),
-            Screen::Scientific => Action::none(),
+            Screen::History => todo!(),
+            Screen::Settings => todo!(),
+            Screen::Scientific => todo!(),
         };
 
         if let Some(instruction) = action.instruction {
