@@ -39,7 +39,7 @@ pub enum Message {
 }
 
 pub struct Action<Instruction, Message> {
-    instruction: Option<Instruction>,
+    pub instruction: Option<Instruction>,
     pub task: Task<Message>,
 }
 
@@ -59,10 +59,6 @@ impl<Instruction, Message> Action<Instruction, Message> {
             task,
         }
     }
-    //
-    // pub fn task(&self) -> Task<Message> {
-    //     self.task.clone()
-    // }
 
     /// Create a new `Action` with an `Instruction` to be handled by some ancestor component.
     pub fn from_instruction(instruction: Instruction) -> Self {
