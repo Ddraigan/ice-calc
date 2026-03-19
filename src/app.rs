@@ -1,15 +1,25 @@
 use iced::{Element, Length, Task, Theme, widget::container};
 
-use crate::{
-    action::{Action, Instruction, Message},
-    screen::Screen,
-    standard_calc::Standard,
-};
+use crate::standard_calc::{Message, Standard};
 
 #[derive(Eq, PartialEq)]
 pub enum InputState {
     Inputting,
     Complete,
+}
+
+#[derive(Clone)]
+pub enum Instruction {
+    ChangeScreen(Screen),
+    UpdateTheme(Theme),
+}
+
+#[derive(Clone)]
+pub enum Screen {
+    Standard,
+    History,
+    Settings,
+    Scientific,
 }
 
 pub struct App {
@@ -39,20 +49,24 @@ impl App {
             Screen::Scientific => todo!(),
         };
 
-        if let Some(instruction) = action.instruction {
+        let instruction_task = if let Some(instruction) = action.instruction {
             self.handle_instruction(instruction)
-        }
+        } else {
+            Task::none()
+        };
 
-        action.task
+        instruction_task.chain(action.task)
     }
 
-    fn handle_instruction(&mut self, instruction: Instruction) {
+    fn handle_instruction(&mut self, instruction: Instruction) -> Task<Message> {
         match instruction {
             Instruction::ChangeScreen(new_screen) => {
                 self.active_screen = new_screen;
+                Task::none()
             }
             Instruction::UpdateTheme(new_theme) => {
                 self.theme = new_theme;
+                Task::none()
             }
         }
     }

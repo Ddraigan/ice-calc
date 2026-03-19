@@ -1,13 +1,5 @@
-use iced::{Task, Theme};
+use iced::Task;
 use std::fmt;
-
-use crate::screen::Screen;
-
-#[derive(Clone)]
-pub enum Instruction {
-    ChangeScreen(Screen),
-    UpdateTheme(Theme),
-}
 
 #[derive(Clone)]
 pub enum Operator {
@@ -15,27 +7,6 @@ pub enum Operator {
     Subtract,
     Multiply,
     Divide,
-}
-
-impl Operator {
-    pub fn symbol(&self) -> &str {
-        match self {
-            Operator::Add => "+",
-            Operator::Subtract => "-",
-            Operator::Multiply => "*",
-            Operator::Divide => "/",
-        }
-    }
-}
-
-#[derive(Clone)]
-pub enum Message {
-    DigitPressed(u8),
-    OperatorPressed(Operator),
-    DecimalPressed,
-    ActionPerformed(Instruction),
-    Calculate,
-    Clear,
 }
 
 pub struct Action<Instruction, Message> {

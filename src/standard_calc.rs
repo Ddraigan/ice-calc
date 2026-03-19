@@ -1,11 +1,33 @@
 use iced::{
-    Alignment, Element, Length, widget::{button, column, container, grid, text}
+    Alignment, Element, Length,
+    widget::{button, column, container, grid, text},
 };
 
 use crate::{
-    action::{Action, Instruction, Message, Operator},
+    action::{Action, Operator},
     app::{Display, InputState},
 };
+
+impl Operator {
+    pub fn symbol(&self) -> &str {
+        match self {
+            Operator::Add => "+",
+            Operator::Subtract => "-",
+            Operator::Multiply => "*",
+            Operator::Divide => "/",
+        }
+    }
+}
+
+#[derive(Clone)]
+pub enum Message {
+    DigitPressed(u8),
+    OperatorPressed(Operator),
+    DecimalPressed,
+    ActionPerformed(Instruction),
+    Calculate,
+    Clear,
+}
 
 pub struct Standard {
     input_display: Display,
@@ -170,4 +192,3 @@ fn calc_button(label: &str, message: Message) -> Element<'_, Message> {
         .width(Length::Fill)
         .into()
 }
-
